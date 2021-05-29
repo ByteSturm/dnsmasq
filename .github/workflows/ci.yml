@@ -21,21 +21,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.x"
- #     - name: Install test dependencies
- #       run: pip3 install ansible yamllint ansible-lint
- #     - name: Lint with yamllint
- #       run: yamllint .
-      - name: Show current dir
-        run: echo $PWD
-      - run: ls
-      - run: mkdir roles
-      - run: ls
-      - run: mkdir roles/dnsmasq
-      - run: ls roles
-      - run: ls | grep -v roles | xargs -i mv {} roles/dnsmasq
-      - run: ls roles/dnsmasq
-      - run: mv roles/dnsmasq/tests/* .
-      - run: ls
+      - name: Install test dependencies
+        run: pip3 install ansible yamllint ansible-lint
+      - name: Lint with yamllint
+        run: yamllint .
+      - name: Create correct directory structure for test
+        run: | 
+          mkdir roles
+          mkdir roles/dnsmasq
+          ls | grep -v roles | xargs -i mv {} roles/dnsmasq
+          mv roles/dnsmasq/tests/* .
       - name: Lint with ansible-lint
         run: ansible-lint test.yml
       - name: Overwrite local resolv.conf
