@@ -37,7 +37,7 @@
       become: true
 
     - name: Add this server to resolv.conf
-      shell: echo 'nameserver 127.0.0.1' | cat - /etc/resolv.conf > temp && mv temp /etc/resolv.conf
+      shell: echo 'nameserver 127.0.0.1' | cat - /etc/resolv.conf > temp && mv temp /etc/resolv.conf # noqa risky-shell-pipe
       changed_when: false
       become: true
 
