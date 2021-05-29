@@ -17,7 +17,7 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - 10
+        - Buster
 
   galaxy_tags:
     - dnsmasq
