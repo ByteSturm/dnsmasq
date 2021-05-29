@@ -35,6 +35,3 @@ jobs:
         run: ansible-lint test.yml
       - name: Run tests
         run: ansible-playbook test.yml
-        env:
-          PY_COLORS: "1"
-          ANSIBLE_FORCE_COLORS: "1"
