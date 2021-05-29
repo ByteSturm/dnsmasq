@@ -26,7 +26,7 @@ jobs:
       - name: Lint with yamllint
         run: yamllint .
       - name: Create correct directory structure for test
-        run: | 
+        run: |
           mkdir roles
           mkdir roles/dnsmasq
           ls | grep -v roles | xargs -i mv {} roles/dnsmasq
