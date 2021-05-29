@@ -22,10 +22,21 @@
       state: restarted
     become: true
 
+  - name: Get resolv.conf content
+    command: "/bin/cat /etc/resolv.conf"
+    register: resolv_conf_content
+
+  - debug: 
+      var: resolv_conf_content.stdout_lines
+# msg="{{ resolv_conf_content.stdout_lines | quote }}"
+
   - name: Get DNS record of fritz.box from single_hosts
     command: "dig +noall +answer fritz.box"
     register: dig_result
     changed_when: false
+  - name: Show dig result
+    debug:
+      var: dig_result
   - name: Assert that the IP for fritz.box is correct
     assert:
       that:
@@ -36,6 +47,9 @@
     command: "dig +noall +answer server2.home.example.com"
     register: dig_result
     changed_when: false
+  - name: Show dig result
+    debug:
+      var: dig_result
   - name: Assert that the IP for server2.home.example.com is correct
     assert:
       that:
@@ -46,6 +60,9 @@
     command: "dig +noall +answer clusternode4.homelab.local"
     register: dig_result
     changed_when: false
+  - name: Show dig result
+    debug:
+      var: dig_result
   - name: Assert that the IP for clusternode4.homelab.local is correct
     assert:
       that:
