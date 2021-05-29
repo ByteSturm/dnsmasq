@@ -28,14 +28,14 @@ jobs:
       - name: Show current dir
         run: echo $PWD
       - run: ls
-      - run: cd ..
-      - run: ls
-      - run: mv dnsmasq/tests/* .
-      - run: ls
       - run: mkdir roles
       - run: ls
-      - run: mv dnsmasq roles/
+      - run: mkdir roles/dnsmasq
       - run: ls roles
+      - run: mv * roles/dnsmasq
+      - run: ls roles/dnsmasq
+      - run: mv roles/dnsmasq/tests/* .
+      - run: ls
       - name: Lint with ansible-lint
         run: ansible-lint test.yml
       - name: Overwrite local resolv.conf
