@@ -1,5 +1,5 @@
 ---
-dnsmasq_resolve_conf: /etc/dnsmasq.custom.d/resolv.conf # to delete
+dnsmasq_resolve_conf: /etc/dnsmasq.custom.d/resolv.conf
 dnsmasq_hosts: /etc/dnsmasq.custom.d/hosts
 single_hosts: []
 local_domains: []
