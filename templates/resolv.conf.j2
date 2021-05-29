@@ -1,4 +1,5 @@
 # Upstream DNS servers used by Dnsmasq
+search example.com
 {% for item in dns_resolvers %}
 nameserver {{ item }}
 {% endfor %}
