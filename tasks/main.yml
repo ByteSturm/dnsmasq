@@ -26,6 +26,12 @@
   when: single_hosts is defined and single_hosts | map(attribute='host') | map('regex_search', '^((?![.]).)*$') | select('string') | length > 0
   notify: Restart Dnsmasq
 
+- name: Make sure destination dir exists
+    file:
+      path: "{{ dnsmasq_resolve_conf | dirname }}"
+      state: directory
+      recurse: yes
+
 - name: Write dns_resolvers to {{ dnsmasq_resolve_conf }}
   template:
     src: resolv.conf.j2
@@ -36,6 +42,12 @@
   become: true
   when: dns_resolvers is defined
   notify: Restart Dnsmasq
+
+- name: Make sure destination dir exists
+    file:
+      path: "{{ dnsmasq_hosts | dirname }}"
+      state: directory
+      recurse: yes
 
 - name: Write all given hosts to {{ dnsmasq_hosts }}
   template:
