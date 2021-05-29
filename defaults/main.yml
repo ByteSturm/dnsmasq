@@ -1,0 +1,6 @@
+---
+dnsmasq_resolve_conf: /etc/dnsmasq.d/resolv.conf
+dnsmasq_hosts: /etc/dnsmasq.d/hosts
+dns_resolvers:
+  - 9.9.9.9
+  - 149.112.112.112

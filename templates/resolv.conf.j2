@@ -1,0 +1,4 @@
+# Upstream DNS servers used by Dnsmasq
+{% for item in dns_resolvers %}
+nameserver {{ item }}
+{% endfor %}

@@ -1,0 +1,33 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include dnsmasq"
+      include_role:
+        name: "dnsmasq"
+      vars:
+        dns_resolvers:
+          - 9.9.9.9
+          - 149.112.112.112
+        single_hosts:
+          - host: fritz.box
+            ip: 192.168.178.1
+        local_domains:
+          - domain: 'home.example.com'
+            hosts:
+              - host: 'server1'
+                ip: '192.168.2.101'
+              - host: 'server2'
+                ip: '192.168.2.102'
+          - domain: 'homelab.local'
+            hosts:
+              - host: 'clusternode1'
+                ip: '192.168.2.111'
+              - host: 'clusternode2'
+                ip: '192.168.2.112'
+              - host: 'clusternode3'
+                ip: '192.168.2.113'
+              - host: 'clusternode4'
+                ip: '192.168.2.114'
+              - host: 'clusternode5'
+                ip: '192.168.2.115'

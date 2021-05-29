@@ -1,0 +1,49 @@
+---
+- name: Install Dnsmasq
+  apt:
+    name: dnsmasq
+    state: present
+  become: true
+
+- name: Write configuration file /etc/dnsmasq.conf
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  when: dns_resolvers is defined
+  notify: Restart Dnsmasq
+
+- name: If there exist hosts with plain names, deactivate option "domain-needed"
+  lineinfile:
+    path: /etc/dnsmasq.conf
+    regexp: "^domain-needed"
+    line: "#domain-needed"
+  become: true
+  # Extract all hostnames from the array and check if there is at least one with just a plain name (no "." as seperator)
+  when: single_hosts | map(attribute='host') | map('regex_search', '^((?![.]).)*$') | select('string') | length > 0
+  notify: Restart Dnsmasq
+
+- name: Write dns_resolvers to {{ dnsmasq_resolve_conf }}
+  template:
+    src: resolv.conf.j2
+    dest: "{{ dnsmasq_resolve_conf }}"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  when: dns_resolvers is defined
+  notify: Restart Dnsmasq
+
+- name: Write all given hosts to {{ dnsmasq_hosts }}
+  template:
+    src: hosts.j2
+    dest: "{{ dnsmasq_hosts }}"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  when: (single_hosts is defined) or (local_domains is defined)
+  notify: Restart Dnsmasq
