@@ -20,11 +20,11 @@ Role Variables
 Every variable is optional, none has to be set.
 | Variable | Description |
 |-|-|
-| `dns_resolvers` | All IP addresses of the upstream DNS servers you want to use for requests the local Dnsmasq server can't answer. Defaults to `['9.9.9.9', '142.112.112.112'] |
+| `dns_resolvers` | All IP addresses of the upstream DNS servers you want to use for requests the local Dnsmasq server can't answer. Defaults to `['9.9.9.9', '142.112.112.112']` |
 | `single_hosts` | All hosts with the full domainname and their respective IP addresses. |
 | `local_domains` | Can be used instead of `single_hosts` when multiple hosts belong to the same domain, so you don't have to repeat the domain for each and every host. The full domain name of each host is determined by combining the hostname and the given domain. |
-| `dnsmasq_resolve_conf` | Sets the directory where the `resolve.conf` will be saved. Defaults to `/etc/dnsmasq.d/resolv.conf`. |
-| `dnsmasq_hosts` | Sets the directory where the `hosts` will be saved. Defaults to `/etc/dnsmasq.d/hosts`. |
+| `dnsmasq_resolve_conf` | Sets the directory where the `resolve.conf` will be saved. Defaults to `/etc/dnsmasq.custom.d/resolv.conf`. |
+| `dnsmasq_hosts` | Sets the directory where the `hosts` will be saved. Defaults to `/etc/dnsmasq.custom.d/hosts`. |
 
 Example Playbook
 ----------------
@@ -35,8 +35,8 @@ The following playbook configures the Quad9 DNS servers as upstream servers. Als
       roles:
       - role: bytesturm.simple-dnsmasq
         vars:
-          dnsmasq_resolve_conf: /etc/dnsmasq.d/resolv.conf
-          dnsmasq_hosts: /etc/dnsmasq.d/hosts
+          dnsmasq_resolve_conf: /etc/dnsmasq.custom.d/resolv.conf
+          dnsmasq_hosts: /etc/dnsmasq.custom.d/hosts
           dns_resolvers:
             - 9.9.9.9
             - 149.112.112.112
