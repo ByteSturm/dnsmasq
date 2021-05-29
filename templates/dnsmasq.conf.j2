@@ -72,9 +72,11 @@ resolv-file={{ dnsmasq_resolve_conf }}
 # Add local-only domains here, queries in these domains are answered
 # from /etc/hosts or DHCP only.
 #local=/localnet/
+{% if local_domains is defined %}
 {% for domain in local_domains %}
 local=/{{ domain.domain }}/
 {% endfor %}
+{% endif %}
 
 # Add domains which you want to force to an IP address here.
 # The example below send any host in double-click.net to a local

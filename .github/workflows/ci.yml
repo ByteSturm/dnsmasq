@@ -10,12 +10,12 @@ name: 'CI'
 
 jobs:
 
-  test: 
+  test:
     name: Molecule tests
     runs-on: ubuntu-latest
-    strategy: 
+    strategy:
       matrix:
-        distro: 
+        distro:
           - debian10
 
     steps:
