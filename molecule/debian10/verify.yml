@@ -8,7 +8,7 @@
       name: dnsutils
       state: present
     become: true
-  
+
   - name: Set the own DNS server to localhost
     lineinfile:
       path: /etc/resolv.conf
