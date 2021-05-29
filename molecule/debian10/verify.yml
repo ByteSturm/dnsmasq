@@ -25,10 +25,11 @@
   - name: Get resolv.conf content
     command: "/bin/cat /etc/resolv.conf"
     register: resolv_conf_content
+    changed_when: false
 
-  - debug: 
+  - name: Show resolv.conf content
+    debug:
       var: resolv_conf_content.stdout_lines
-# msg="{{ resolv_conf_content.stdout_lines | quote }}"
 
   - name: Get DNS record of fritz.box from single_hosts
     command: "dig +noall +answer fritz.box"
