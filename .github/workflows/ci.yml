@@ -29,6 +29,8 @@ jobs:
         run: yamllint .
       - name: Move playbook and role to correct folder
         run: cd .. && mv dnsmasq/tests/* . && mkdir roles && mv dnsmasq roles/
+      - name: DEBUG - Show folder contents
+        run: ls && ls roles
       - name: Lint with ansible-lint
         run: ansible-lint test.yml
       - name: Overwrite local resolv.conf
