@@ -35,8 +35,8 @@ The following playbook configures the Quad9 DNS servers as upstream servers. Als
       roles:
       - role: bytesturm.simple-dnsmasq
         vars:
-          dnsmasq_resolve_conf: /etc/dnsmasq.d/resolv.conf
-          dnsmasq_hosts: /etc/dnsmasq.d/hosts
+          dnsmasq_resolve_conf: /etc/dnsmasq.custom.d/resolv.conf
+          dnsmasq_hosts: /etc/dnsmasq.custom.d/hosts
           dns_resolvers:
             - 9.9.9.9
             - 149.112.112.112
