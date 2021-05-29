@@ -32,7 +32,7 @@ jobs:
       - run: ls
       - run: mkdir roles/dnsmasq
       - run: ls roles
-      - run: mv ./!(roles) roles/dnsmasq
+      - run: mv -f * roles/dnsmasq
       - run: ls roles/dnsmasq
       - run: mv roles/dnsmasq/tests/* .
       - run: ls
