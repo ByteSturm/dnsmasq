@@ -2,4 +2,85 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - dnsmasq
+    - role: dnsmasq
+      vars:
+        dns_resolvers:
+          - 9.9.9.9
+          - 149.112.112.112
+        single_hosts:
+          - host: fritz.box
+            ip: 192.168.178.1
+        local_domains:
+          - domain: 'home.example.com'
+            hosts:
+              - host: 'server1'
+                ip: '192.168.2.101'
+              - host: 'server2'
+                ip: '192.168.2.102'
+          - domain: 'homelab.local'
+            hosts:
+              - host: 'clusternode1'
+                ip: '192.168.2.111'
+              - host: 'clusternode2'
+                ip: '192.168.2.112'
+              - host: 'clusternode3'
+                ip: '192.168.2.113'
+              - host: 'clusternode4'
+                ip: '192.168.2.114'
+              - host: 'clusternode5'
+                ip: '192.168.2.115'
+  tasks:
+    - name: Install dnsutils so dig can be used
+      apt:
+        name: dnsutils
+        state: present
+      become: true
+
+    - name: Add this server to resolv.conf
+      shell: echo 'nameserver 127.0.0.1' | cat - /etc/resolv.conf > temp && mv temp /etc/resolv.conf
+      changed_when: false
+      become: true
+
+    - name: Set Dnsmasq to obey order of resolvers, important for this test
+      lineinfile:
+        path: /etc/dnsmasq.conf
+        regexp: "^#strict-order"
+        line: "strict-order"
+      become: true
+
+    - name: Restart Dnsmasq
+      service:
+        name: dnsmasq
+        state: restarted
+        enabled: true
+      become: true
+
+    - name: Get DNS record of fritz.box from single_hosts
+      command: "dig +noall +answer fritz.box"
+      register: dig_result
+      changed_when: false
+    - name: Assert that the IP for fritz.box is correct
+      assert:
+        that:
+          - dig_result.stdout is search( 'fritz.box' )
+          - dig_result.stdout is search( '192.168.178.1' )
+
+    - name: Get DNS record of server2.home.example.com from local_domains
+      command: "dig +noall +answer server2.home.example.com"
+      register: dig_result
+      changed_when: false
+    - name: Assert that the IP for server2.home.example.com is correct
+      assert:
+        that:
+          - dig_result.stdout is search( 'server2.home.example.com' )
+          - dig_result.stdout is search( '192.168.2.102' )
+
+    - name: Get DNS record of clusternode4.homelab.local from local_domains
+      command: "dig +noall +answer clusternode4.homelab.local"
+      register: dig_result
+      changed_when: false
+    - name: Assert that the IP for clusternode4.homelab.local is correct
+      assert:
+        that:
+          - dig_result.stdout is search( 'clusternode4.homelab.local' )
+          - dig_result.stdout is search( '192.168.2.114' )

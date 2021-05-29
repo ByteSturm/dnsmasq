@@ -13,10 +13,6 @@ jobs:
   test:
     name: Molecule tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        distro:
-          - debian10
 
     steps:
       - name: Checkout code
@@ -26,10 +22,18 @@ jobs:
         with:
           python-version: "3.x"
       - name: Install test dependencies
-        run: pip3 install molecule[docker] molecule[ansible] yamllint ansible-lint
+        run: pip3 install ansible yamllint ansible-lint
+      - name: Show current dir
+        run: echo $PWD
+      - name: Lint with yamllint
+        run: yamllint .
+      - name: Move playbook to correct folder
+        run: mv tests/* ../
+      - name: Lint with ansible-lint
+        run: yamllint .
       - name: Overwrite local resolv.conf
         run: echo 'nameserver 127.0.0.1' | cat - /etc/resolv.conf > temp && sudo mv temp /etc/resolv.conf
-      - name: Run molecule tests
+      - name: Run tests
         run: molecule test --scenario-name ${{ matrix.distro }}
         env:
           PY_COLORS: "1"

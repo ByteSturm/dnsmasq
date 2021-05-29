@@ -33,6 +33,7 @@
     path: "{{ dnsmasq_resolve_conf | dirname }}"
     state: directory
     recurse: yes
+  become: true
 
 - name: Write dns_resolvers to {{ dnsmasq_resolve_conf }}
   template:
@@ -50,6 +51,7 @@
     path: "{{ dnsmasq_hosts | dirname }}"
     state: directory
     recurse: yes
+  become: true
 
 - name: Write all given hosts to {{ dnsmasq_hosts }}
   template:
