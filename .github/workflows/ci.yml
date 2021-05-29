@@ -27,17 +27,15 @@ jobs:
  #       run: yamllint .
       - name: Show current dir
         run: echo $PWD
-      - name: Move playbook and role to correct folder
-        run: |
-          ls
-          cd ..
-          ls
-          mv dnsmasq/tests/* .
-          ls
-          mkdir roles
-          ls
-          mv dnsmasq roles/
-          ls roles
+      - run: ls
+      - run: cd ..
+      - run: ls
+      - run: mv dnsmasq/tests/* .
+      - run: ls
+      - run: mkdir roles
+      - run: ls
+      - run: mv dnsmasq roles/
+      - run: ls roles
       - name: Lint with ansible-lint
         run: ansible-lint test.yml
       - name: Overwrite local resolv.conf
