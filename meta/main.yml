@@ -23,7 +23,7 @@ galaxy_info:
     - dnsmasq
     - network
     - service
-    - DNS
+    - dns
     - simple
 
 dependencies: []
