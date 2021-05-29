@@ -36,3 +36,4 @@ jobs:
       - name: Run tests
         run: ansible-playbook test.yml
       - run: journalctl -xe
+        if: ${{ failure() }}
