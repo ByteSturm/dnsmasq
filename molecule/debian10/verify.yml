@@ -9,12 +9,12 @@
       state: present
     become: true
 
-- name: Disabling and Stopping systemd-resolved
-  service:
-    name: systemd-resolved
-    state: stopped
-    enabled: false
-  become: true
+  - name: Disabling and Stopping systemd-resolved
+    service:
+      name: systemd-resolved
+      state: stopped
+      enabled: false
+    become: true
 
   - name: Set the own DNS server to localhost
     lineinfile:
