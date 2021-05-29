@@ -33,6 +33,8 @@ jobs:
           mv roles/dnsmasq/tests/* .
       - name: Lint with ansible-lint
         run: ansible-lint test.yml
+      - name: Ensure Port 53 is free
+        run: kill -9 $(lsof -t -i:53)
       - name: Run tests
         run: ansible-playbook test.yml
       - run: journalctl -xe
