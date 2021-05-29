@@ -35,4 +35,4 @@ jobs:
         run: ansible-lint test.yml
       - name: Run tests
         run: ansible-playbook test.yml
-      -run: journalctl -xe
+      - run: journalctl -xe
