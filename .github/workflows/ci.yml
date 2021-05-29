@@ -27,6 +27,8 @@ jobs:
           python-version: "3.x"
       - name: Install test dependencies
         run: pip3 install molecule[docker] molecule[ansible] yamllint ansible-lint
+      - name: Overwrite local resolv.conf
+        run: echo 'nameserver 127.0.0.1' | cat - /etc/resolv.conf > temp && mv temp /etc/resolv.conf
       - name: Run molecule tests
         run: molecule test --scenario-name ${{ matrix.distro }}
         env:
