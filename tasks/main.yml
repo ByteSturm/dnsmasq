@@ -23,7 +23,7 @@
     line: "#domain-needed"
   become: true
   # Extract all hostnames from the array and check if there is at least one with just a plain name (no "." as seperator)
-  when: 
+  when:
     - single_hosts is defined
     - single_hosts | map(attribute='host') | map('regex_search', '^((?![.]).)*$') | select('string') | list | length > 0
   notify: Restart Dnsmasq
