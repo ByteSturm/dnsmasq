@@ -8,6 +8,13 @@
       name: dnsutils
       state: present
     become: true
+  
+  - name: Set the own DNS server to localhost
+    lineinfile:
+      path: /etc/resolv.conf
+      regexp: "^nameserver"
+      line: "nameserver 127.0.0.1"
+    become: true
 
   - name: Get DNS record of fritz.box from single_hosts
     command: "dig +noall +answer fritz.box"
